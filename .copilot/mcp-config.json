@@ -1,0 +1,52 @@
+{
+  "mcpServers": {
+    "work-mcp": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["core/mcp/work_server.py"],
+      "env": {
+        "VAULT_PATH": "."
+      }
+    },
+    "calendar-mcp": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["core/mcp/calendar_server.py"],
+      "env": {
+        "VAULT_PATH": "."
+      }
+    },
+    "career-mcp": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["core/mcp/career_server.py"],
+      "env": {
+        "VAULT_PATH": "."
+      }
+    },
+    "dex-improvements-mcp": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["core/mcp/dex_improvements_server.py"],
+      "env": {
+        "VAULT_PATH": "."
+      }
+    },
+    "resume-mcp": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["core/mcp/resume_server.py"],
+      "env": {
+        "VAULT_PATH": "."
+      }
+    },
+    "onboarding-mcp": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["core/mcp/onboarding_server.py"],
+      "env": {
+        "VAULT_PATH": "."
+      }
+    }
+  }
+}
