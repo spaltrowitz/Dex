@@ -153,8 +153,8 @@ Use: get_commitment_stats(
 > **Created from prompts:** 3
 > **Dismissed as handled:** 2
 >
-> **Apps with most uncaptured asks:**
-> 1. Slack - 5 items
+> **Sources with most uncaptured asks:**
+> 1. Messages - 5 items
 > 2. Email - 4 items
 > 3. Notion - 3 items
 >
@@ -162,16 +162,14 @@ Use: get_commitment_stats(
 > 1. Sarah Chen - 4 asks
 > 2. Product team - 3 asks
 >
-> 💡 *Consider: Check Slack more frequently for asks, or run "commitment scan" mid-week*"
+> 💡 *Consider: Check messages more frequently for asks, or run "commitment scan" mid-week*"
 
 **If no commitment data:**
 Skip this section silently (user may not have ScreenPipe or commitment detection enabled).
 
-### 5.8 Email Communication Stats (if Gmail connected)
+### 5.8 Email Communication Stats (via WorkIQ)
 
-Check `System/integrations/config.yaml` for `google-workspace.enabled: true`.
-
-If enabled and WorkIQ is healthy:
+If WorkIQ is available:
 - **Emails sent this week** — count of sent messages in the review period
 - **Average response time** — how quickly you replied to incoming emails
 - **Threads still open** — conversations with no resolution (back-and-forth still active)
@@ -190,7 +188,7 @@ Surface in the review:
 >
 > **Observation:** You have 3 emails waiting for replies longer than 48 hours. Consider clearing those early next week."
 
-If unhealthy or not enabled: skip this section silently.
+If WorkIQ is unavailable: skip this section silently.
 
 ### 6. Learning Compilation & Pattern Detection
 

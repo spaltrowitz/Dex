@@ -170,40 +170,34 @@ For each completed item:
 
 **If nothing to sync:** Skip silently.
 
-### 5.8 Email Intelligence (if Gmail connected)
+### 5.8 Communication Intelligence (via WorkIQ)
 
-Check `System/integrations/config.yaml` for `google-workspace.enabled: true`.
+Use WorkIQ to gather email, chat, and messaging context in a single pass.
 
-If enabled and MCP healthy:
-1. Get unread count and priority emails from monitored labels
-2. Flag emails needing reply (> 48h since received, from key contacts in `05-Areas/People/`)
-3. Surface email threads with today's meeting attendees
+If WorkIQ is available:
 
-Include in plan:
+1. **Email context:**
+   ```
+   ask_work_iq(question="What unread emails do I have that need replies? Flag any older than 48 hours from key contacts.")
+   ```
 
-> "Email: [X] unread, [Y] need replies. [Z] threads with today's meeting attendees."
+2. **Chat & messaging context:**
+   ```
+   ask_work_iq(question="What unread Teams messages and chats do I have? Any mentions or DMs needing response?")
+   ```
 
-If unhealthy: skip silently (graceful degradation -- no error to user).
-
-### 5.9 Teams Intelligence (if Teams connected)
-
-Check `System/integrations/config.yaml` for `teams.enabled: true`.
-
-If enabled and MCP healthy:
-1. Get unread messages from priority channels
-2. Surface DMs needing response
-3. Check for mentions
+3. **Meeting-related threads:**
+   ```
+   ask_work_iq(question="What recent emails or chats involve today's meeting attendees?")
+   ```
 
 Include in plan:
 
-> "**Teams:** [X] unread chats, [Y] mentions. [Z] threads with today's meeting attendees."
+> "**Messages:** [X] unread chats, [Y] mentions. [Z] threads with today's meeting attendees."
+>
+> "**Email:** [X] unread, [Y] need replies. [Z] threads with today's meeting attendees."
 
-If BOTH Slack and Teams enabled:
-- Show both digests, clearly labeled: "**Slack:** ..." and "**Teams:** ..."
-- Deduplicate if the same person appears in both (merge context, label the source)
-- Present side by side in the plan output under a combined "Chat Intelligence" heading
-
-If unhealthy: skip silently (graceful degradation -- no error to user).
+If WorkIQ is unavailable: skip silently (graceful degradation — no error to user).
 
 ### 5.10a Mobile Capture Check (Dex Inbox)
 
@@ -442,7 +436,5 @@ The plan works at multiple levels:
 |-------------|------------|------------|
 | Calendar | dex-calendar-mcp | `calendar_get_today`, `calendar_get_events_with_attendees` |
 | Reminders | dex-calendar-mcp | `reminders_list_items`, `reminders_complete_item`, `reminders_create_item`, `reminders_ensure_lists`, `reminders_list_completed`, `reminders_find_and_complete`, `reminders_clear_completed` |
-| WorkIQ | WorkIQ (ask_work_iq) | `ask_work_iq` |
+| WorkIQ | WorkIQ (ask_work_iq) | `ask_work_iq` — email, chat, calendar, files context |
 | Work | dex-work-mcp | `list_tasks`, `get_week_progress`, `get_meeting_context`, `get_commitments_due`, `analyze_calendar_capacity`, `suggest_task_scheduling` |
-| Google Workspace | WorkIQ (ask_work_iq) | Gmail query, email search (if enabled) |
-| Teams | WorkIQ (ask_work_iq) | `teams_list_chats`, `teams_search_messages`, `teams_health_check` (if enabled) |

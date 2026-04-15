@@ -95,8 +95,6 @@ Search `00-Inbox/Meetings/` for recent meetings with these attendees:
 
 ### Step 3b: Integration Context (if available)
 
-Check `System/integrations/config.yaml` to see which integrations are enabled.
-
 **Notion Integration:**
 If `enabled.notion: true` AND Notion MCP is available:
 ```
@@ -109,66 +107,26 @@ Include in prep:
 - Shared pages with attendees
 ```
 
-**Slack Integration:**
-If `enabled.slack: true` AND WorkIQ is available:
+**WorkIQ Context (Email, Chat, Files):**
+If WorkIQ is available, gather communication context in a single pass:
+
 ```
-Search Slack for recent conversations:
-- With/about each attendee
-- Mentioning the meeting topic
-
-Include in prep:
-- Recent Slack context (last 7 days)
-- Key threads or decisions
-- Any commitments made
+ask_work_iq(question="What recent emails have I exchanged with [attendee names] in the last 7 days?")
 ```
+Include: Recent email threads summarized, outstanding requests (emails waiting > 48h for reply).
 
-**Teams Integration:**
-If `teams.enabled: true` AND WorkIQ available:
 ```
-Search Teams chats with attendees:
-- Recent 1:1 and group chats involving each attendee
-- Mentioning the meeting topic
-
-Check Teams channels related to meeting topic:
-- Project channels, department channels
-- Recent posts and replies
-
-Surface recent decisions from Teams threads:
-- Key decisions made in channel conversations
-- Any commitments or follow-ups from Teams chats
-
-Include in prep:
-- Recent Teams context (last 7 days)
-- Key threads or decisions from channels
-- Any commitments made in Teams chats
+ask_work_iq(question="What recent Teams conversations or chats involve [attendee names] or mention [meeting topic]?")
 ```
+Include: Recent chat context (last 7 days), key threads or decisions, any commitments made.
 
-**When BOTH Slack and Teams are enabled:**
-- Check both sources for each attendee
-- Label context by source: "**From Slack:**" / "**From Teams:**"
-- Deduplicate if the same person appears in both (merge context, label the source)
-- Present in separate sub-sections under Integration Context
-
-**Google Workspace Integration:**
-If `google-workspace.enabled: true` AND WorkIQ is available:
 ```
-Search Gmail for recent threads with each attendee (last 7 days):
-- Email exchanges and their topics
-- Shared Google Docs mentioned in threads
-- Outstanding email requests (sent but no reply)
-
-Search for Google Docs related to:
-- Meeting topic ($MEETING)
-- Shared documents with attendees
-
-Include in prep:
-- Recent email exchanges (last 7 days) — key threads summarized
-- Shared documents — Google Docs, Sheets, or Slides linked in emails
-- Outstanding requests/follow-ups — emails waiting > 48h for reply
+ask_work_iq(question="What documents or files have been shared with [attendee names] recently?")
 ```
+Include: Shared documents linked in emails or chats, files related to the meeting topic.
 
 **Graceful Degradation:**
-If an integration is enabled but the MCP isn't responding:
+If WorkIQ is unavailable:
 - Skip silently
 - Don't show error to user
 - Continue with vault-only context
@@ -224,17 +182,13 @@ Previous meetings with these attendees:
 
 *This section appears when productivity integrations are enabled.*
 
-### From Slack
-> Recent conversation context with attendees (last 7 days)
-
-### From Teams
-> Recent Teams chats and channel threads with attendees (last 7 days)
-
 ### From Notion
 > Related Notion docs: [Doc title](link)
 
-### From Gmail
-> Email threads with [Attendee]: [Summary of outstanding requests]
+### From WorkIQ
+> Recent email threads with [Attendee]: [Summary of outstanding requests]
+> Recent chat context with attendees (last 7 days)
+> Shared documents: [Doc title](link)
 
 ---
 

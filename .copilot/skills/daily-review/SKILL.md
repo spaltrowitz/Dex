@@ -67,9 +67,9 @@ If ScreenPipe is running, gather automatic activity context:
    > 
    > **Time breakdown:**
    > - VS Code: 3.2 hours (41%)
-   > - Slack: 1.5 hours (19%)
+   > - Messages: 1.5 hours (19%)
    > - Chrome: 2.1 hours (27%)
-   > - Zoom: 1.0 hour (13%)
+   > - Meetings: 1.0 hour (13%)
    > 
    > **Activity narrative:**
    > [Generated summary of the day]
@@ -100,7 +100,7 @@ Read `System/user-profile.yaml` → `screenpipe.enabled`. If false, skip this se
 Use: scan_for_commitments(
     start_time="YYYY-MM-DDT09:00:00",
     end_time="YYYY-MM-DDT18:00:00",
-    apps=["Slack", "Gmail", "Teams", "Notion"]
+    apps=["Teams", "Outlook", "Notion"]
 )
 ```
 
@@ -117,7 +117,7 @@ Use: get_uncommitted_items(include_dismissed=false)
 >
 > ### Inbound Asks
 >
-> **1. Sarah Chen** (Slack, 2:34 PM)
+> **1. Sarah Chen** (Teams, 2:34 PM)
 > > "Can you review the pricing proposal by Friday?"
 >
 > 📎 Matches: **Q1 Pricing Project**
@@ -127,7 +127,7 @@ Use: get_uncommitted_items(include_dismissed=false)
 >
 > ### Outbound Promises
 >
-> **2. You → Tom Baker** (Slack, 4:20 PM)
+> **2. You → Tom Baker** (Teams, 4:20 PM)
 > > "I'll send over the competitive analysis tomorrow"
 >
 > 📎 Matches: **Acme Deal**
@@ -140,7 +140,7 @@ Use: get_uncommitted_items(include_dismissed=false)
 For each item the user wants to create as a task:
 ```
 Use: process_commitment(commitment_id="comm-XXXXXX-XXX", action="create_task")
-Use: create_task(title="...", priority="P2", pillar="...", context="From Slack commitment")
+Use: create_task(title="...", priority="P2", pillar="...", context="From Teams commitment")
 ```
 
 For dismissals:

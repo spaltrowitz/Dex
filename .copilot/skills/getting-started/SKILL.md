@@ -629,7 +629,7 @@ Your workspace is set up, but you don't have calendar or meeting tools connected
 
 What tools do you use most? Examples:
 • Notion, Linear, Jira
-• Slack, Discord
+• WorkIQ (M365 emails, chats, calendar, files)
 • GitHub, GitLab
 • Your company's internal tools
 • Newsletters, RSS feeds
@@ -720,29 +720,28 @@ See? Real data, not AI guessing. That's what MCP does."
 
 ## Additional Pathways (Available in Any Flow)
 
-### Google Workspace Setup
+### WorkIQ Setup (M365 Integration)
 
-If user wants to connect Gmail/Calendar:
+If user wants to connect email, calendar, or chat:
 
 ```
-"Let's connect your Google account.
+"Let's connect WorkIQ — it gives Dex access to your M365 data in one step.
 
-This works even if your work account has restrictions - we can use your personal Google if needed.
+**What you'll get:**
+• Email context (recent threads, outstanding replies)
+• Calendar awareness (meetings, scheduling)
+• Chat & messaging context (Teams conversations, mentions)
+• File awareness (shared documents, recent files)
 
-**What we'll set up:**
-• Calendar sync (see meetings in Dex)
-• Gmail access (summarize newsletters, find emails)
-• Optional: Create daily digest
-
-I'll guide you through OAuth step-by-step.
+All through a single integration — no separate setup per service.
 
 Ready?"
 ```
 
 Then:
-1. Guide through OAuth flow for Google Calendar MCP
-2. Add Gmail MCP if they want
-3. Offer to set up newsletter digest
+1. Verify WorkIQ is available via `ask_work_iq`
+2. Test with a simple query: `ask_work_iq(question="What meetings do I have today?")`
+3. Confirm data is flowing and offer to set up daily digest
 
 ### Information Diet Setup
 
@@ -752,7 +751,7 @@ If user mentions newsletters, RSS, or content consumption:
 "Want me to create a daily digest for you?
 
 I can pull from:
-• Newsletters (via Gmail)
+• Newsletters (via WorkIQ or RSS)
 • YouTube channels you follow
 • RSS feeds from blogs
 • Specific websites you check regularly
@@ -778,7 +777,7 @@ Anytime during tool discussion:
 Browse there for:
 • GitHub, Linear, Jira
 • Notion, Airtable, Sheets
-• Slack, Discord, Email
+• WorkIQ (M365 email, chat, files)
 • Databases, monitoring tools
 • And way more...
 

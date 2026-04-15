@@ -47,6 +47,7 @@
       "env": {
         "VAULT_PATH": "."
       }
-    }
+    },
+    "_comment": "WorkIQ is available as a built-in Copilot CLI tool (ask_work_iq) — no MCP config needed. It replaces Granola, Google Workspace, Slack, Teams, and Zoom MCPs for M365 data access."
   }
 }
