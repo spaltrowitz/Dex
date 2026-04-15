@@ -14,7 +14,7 @@
 - [ ] Weekly review (`/week-review`)
 - [ ] Quarterly planning (`/quarter-plan`)
 - [ ] Quarterly review (`/quarter-review`)
-- [ ] Getting started tour (`/getting-started`)
+- [x] Getting started tour (`/getting-started`)
 - [ ] Journaling (`/journal`)
 
 ## Meeting Workflows (7 features)
