@@ -30,6 +30,26 @@ Resources, Archives). The vault is also an Obsidian vault for rich note-taking a
 
 ---
 
+## Session Start — Automatic Context Loading
+
+At the start of every conversation, silently load context by reading these files
+(if they exist). Do NOT display them — just internalize for smarter responses:
+
+1. `System/pillars.yaml` — strategic pillars (your north star for routing tasks)
+2. `01-Quarter_Goals/Quarter_Goals.md` — current quarter goals
+3. `02-Week_Priorities/Week_Priorities.md` — this week's priorities
+4. `03-Tasks/Tasks.md` — open task backlog (scan for overdue items)
+5. `System/user-profile.yaml` — communication preferences and identity
+
+If any file is missing, that's fine — skip it. If `System/.onboarding-complete`
+doesn't exist, trigger the Getting Started flow instead.
+
+**Quick status:** After loading, if the user hasn't asked a specific question,
+offer a brief "Good morning/afternoon" with today's date and a 1-line summary of
+what's on their plate (top priority + meeting count from calendar if available).
+
+---
+
 ## First-Time Setup
 
 If `04-Projects/` folder doesn't exist, this is a fresh setup. Use `ask_user` to walk
