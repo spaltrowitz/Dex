@@ -78,7 +78,7 @@ MARKER_FILE = BASE_DIR / 'System' / '.onboarding-complete'
 USER_PROFILE_FILE = BASE_DIR / 'System' / 'user-profile.yaml'
 USER_PROFILE_TEMPLATE = BASE_DIR / 'System' / 'user-profile-template.yaml'
 PILLARS_FILE = BASE_DIR / 'System' / 'pillars.yaml'
-CLAUDE_MD = BASE_DIR / 'CLAUDE.md'
+AGENT_MD = BASE_DIR / '.github' / 'agents' / 'dex.agent.md'
 MCP_CONFIG_EXAMPLE = BASE_DIR / 'System' / '.mcp.json.example'
 MCP_CONFIG_TARGET = BASE_DIR / 'System' / '.mcp.json'
 
@@ -280,24 +280,18 @@ def check_calendar_app() -> Dict[str, Any]:
             "required": False
         }
 
-def check_granola() -> Dict[str, Any]:
-    """Check if Granola is installed"""
-    # Check common Granola cache locations
-    if platform.system() == 'Darwin':
-        cache_path = Path.home() / 'Library' / 'Application Support' / 'Granola' / 'cache-v3.json'
-    elif platform.system() == 'Windows':
-        appdata = os.getenv('APPDATA') or os.getenv('LOCALAPPDATA')
-        if appdata:
-            cache_path = Path(appdata) / 'Granola' / 'cache-v3.json'
-        else:
-            cache_path = None
-    else:  # Linux
-        cache_path = Path.home() / '.config' / 'Granola' / 'cache-v3.json'
-    
-    if cache_path and cache_path.exists():
-        return {"installed": True, "cache_found": True, "path": str(cache_path)}
-    else:
-        return {"installed": False, "optional": True}
+def check_meeting_integration() -> Dict[str, Any]:
+    """Check meeting data availability via WorkIQ.
+
+    WorkIQ (ask_work_iq) is a built-in Copilot CLI tool that provides
+    access to M365 meeting data.  No local installation is required.
+    """
+    return {
+        "available": True,
+        "provider": "WorkIQ",
+        "hint": "Use the ask_work_iq tool for meeting data (emails, calendar, files).",
+        "optional": True,
+    }
 
 def create_para_structure(base_path: Path) -> List[str]:
     """Create PARA folder structure"""
@@ -445,14 +439,14 @@ def create_pillars_file(pillars: List[str]) -> bool:
         logger.error(f"Error creating pillars file: {e}")
         return False
 
-def update_claude_md(session_data: Dict) -> bool:
-    """Update CLAUDE.md User Profile section"""
+def update_agent_md(session_data: Dict) -> bool:
+    """Update dex.agent.md User Profile section."""
     try:
-        if not CLAUDE_MD.exists():
-            logger.error("CLAUDE.md not found")
+        if not AGENT_MD.exists():
+            logger.error("dex.agent.md not found")
             return False
         
-        content = CLAUDE_MD.read_text()
+        content = AGENT_MD.read_text()
         data = session_data['data']
         
         # Find and replace User Profile section
@@ -473,10 +467,10 @@ def update_claude_md(session_data: Dict) -> bool:
         replacement = profile_section + "\n---"
         content = re.sub(pattern, replacement, content, flags=re.DOTALL)
         
-        CLAUDE_MD.write_text(content)
+        AGENT_MD.write_text(content)
         return True
     except Exception as e:
-        logger.error(f"Error updating CLAUDE.md: {e}")
+        logger.error(f"Error updating dex.agent.md: {e}")
         return False
 
 def setup_mcp_config(vault_path: Path) -> tuple[bool, Optional[str]]:
@@ -711,28 +705,13 @@ def create_person_page(contact: Dict, email_domain: str) -> bool:
         logger.error(f"Failed to create person page for {contact.get('name', 'unknown')}: {e}")
         return False
 
-def get_recent_granola_meetings(days: int = 7) -> List[Dict]:
-    """Get recent meetings from Granola"""
-    try:
-        granola_server_path = BASE_DIR / 'core' / 'mcp' / 'granola_server.py'
-        if not granola_server_path.exists():
-            logger.warning("granola_server.py not found")
-            return []
-        
-        # Dynamic import
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("granola_server", granola_server_path)
-        granola_module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(granola_module)
-        
-        # Get recent meetings
-        from datetime import timedelta
-        cutoff = datetime.now() - timedelta(days=days)
-        meetings = granola_module.get_meetings_since(cutoff)
-        return meetings if meetings else []
-    except Exception as e:
-        logger.warning(f"Failed to get Granola meetings: {e}")
-        return []
+def get_recent_meetings(days: int = 7) -> List[Dict]:
+    """Stub — meeting data is now accessed via WorkIQ (ask_work_iq tool).
+
+    Returns an empty list with a hint pointing callers to WorkIQ.
+    """
+    logger.info("get_recent_meetings: Use WorkIQ ask_work_iq tool for meeting data")
+    return []
 
 def count_unique_people(meetings: List[Dict]) -> int:
     """Count unique people across meetings"""
@@ -820,7 +799,7 @@ async def handle_list_tools() -> list[types.Tool]:
         ),
         types.Tool(
             name="verify_dependencies",
-            description="Check system requirements: Python packages, Calendar.app, Granola",
+            description="Check system requirements: Python packages, Calendar.app, WorkIQ",
             inputSchema={
                 "type": "object",
                 "properties": {}
@@ -1130,7 +1109,7 @@ async def handle_call_tool(name: str, arguments: dict | None) -> list[types.Text
             deps = {
                 "python_packages": check_python_packages(),
                 "calendar_app": check_calendar_app(),
-                "granola": check_granola()
+                "meeting_integration": check_meeting_integration()
             }
             
             # Check if all required packages installed
@@ -1218,7 +1197,7 @@ async def handle_call_tool(name: str, arguments: dict | None) -> list[types.Text
                 would_create_files.append('System/pillars.yaml')
 
                 # Configs that would be updated
-                would_update_configs = ['CLAUDE.md (User Profile section)']
+                would_update_configs = ['dex.agent.md (User Profile section)']
                 if MCP_CONFIG_EXAMPLE.exists():
                     would_update_configs.append('System/.mcp.json')
 
@@ -1307,12 +1286,12 @@ async def handle_call_tool(name: str, arguments: dict | None) -> list[types.Text
                 else:
                     summary['errors'].append("Could not create pillars.yaml")
 
-                # 5. Update CLAUDE.md
-                logger.info("Updating CLAUDE.md")
-                if update_claude_md(session):
-                    summary['configs_updated'].append('CLAUDE.md')
+                # 5. Update dex.agent.md
+                logger.info("Updating dex.agent.md")
+                if update_agent_md(session):
+                    summary['configs_updated'].append('dex.agent.md')
                 else:
-                    summary['errors'].append("Could not update CLAUDE.md")
+                    summary['errors'].append("Could not update dex.agent.md")
 
                 # 6. Setup MCP config
                 logger.info("Setting up .mcp.json")

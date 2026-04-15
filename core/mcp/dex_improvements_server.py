@@ -94,7 +94,7 @@ DEX_RELEVANCE_KEYWORDS = [
     'task', 'tasks', 'todo',
     'skill', 'skills', 'command', 'commands', 'slash',
     'context', 'compact', 'summariz',
-    'claude.md', 'additional director',
+    'claude.md', 'agent.md', 'additional director',
     'keybind', 'keyboard', 'shortcut',
     'oauth', 'credential', 'authentication',
     'pdf', 'document',
