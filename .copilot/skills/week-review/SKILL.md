@@ -133,40 +133,6 @@ Review meeting notes from the week:
 - Action items created
 - Follow-ups that might have slipped
 
-### 5.5 Commitment Health Analysis (NEW)
-
-If ScreenPipe and Commitment Detection are available, show aggregate stats:
-
-```
-Use: get_commitment_stats(
-    start_date="YYYY-MM-DD",  # Monday of this week
-    end_date="YYYY-MM-DD"     # Today
-)
-```
-
-**Surface to user:**
-
-> "📊 **Commitment Health This Week**
->
-> **Detected across apps:** 12 potential commitments
-> **Already had tasks:** 7 (58%)
-> **Created from prompts:** 3
-> **Dismissed as handled:** 2
->
-> **Sources with most uncaptured asks:**
-> 1. Messages - 5 items
-> 2. Email - 4 items
-> 3. Notion - 3 items
->
-> **People who asked most of you:**
-> 1. Sarah Chen - 4 asks
-> 2. Product team - 3 asks
->
-> 💡 *Consider: Check messages more frequently for asks, or run "commitment scan" mid-week*"
-
-**If no commitment data:**
-Skip this section silently (user may not have ScreenPipe or commitment detection enabled).
-
 ### 5.8 Email Communication Stats (via WorkIQ)
 
 If WorkIQ is available:

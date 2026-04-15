@@ -16,7 +16,7 @@ Generate your daily plan with full context awareness. Automatically gathers info
 
 ## Tone Calibration
 
-Before executing this command, read `System/user-profile.yaml` → `communication` section and adapt tone accordingly (see COPILOT.md → "Communication Adaptation").
+Before executing this command, read `System/user-profile.yaml` → `communication` section and adapt tone accordingly (see the Dex agent file (.github/agents/dex.agent.md) → "Communication Adaptation").
 
 ---
 

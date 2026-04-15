@@ -136,9 +136,9 @@ For each issue, analyze the technical `message`/`error` field (not shown to user
 
 | Technical pattern | What to tell the user | Suggested fix |
 |---|---|---|
-| `VAULT_PATH not set` or `KeyError: 'VAULT_PATH'` | [Server] doesn't know where your vault is | "Your MCP config may need the vault path. Want me to check `.mcp.json`?" |
+| `VAULT_PATH not set` or `KeyError: 'VAULT_PATH'` | [Server] doesn't know where your vault is | "Your MCP config may need the vault path. Want me to check `.copilot/mcp-config.json`?" |
 | `JSONDecodeError` | [Server] got corrupted data | "A config or data file has invalid formatting. Want me to find and fix it?" |
-| `FileNotFoundError: .mcp.json` | MCP configuration file is missing | "Your `.mcp.json` file is missing. Want me to regenerate it from the example?" |
+| `FileNotFoundError: .copilot/mcp-config.json` | MCP configuration file is missing | "Your `.copilot/mcp-config.json` file is missing. Want me to regenerate it from the example?" |
 
 **File/Permission Issues:**
 
@@ -193,7 +193,7 @@ Want me to try fixing these? Here's what I can do:
   • Reinstall Python packages
   • Regenerate missing config from example
   • Create missing vault files (Tasks.md, etc.)
-  • Validate and repair .mcp.json
+  • Validate and repair .copilot/mcp-config.json
 
   Manual (you'll need to do this):
   • File permission changes
@@ -208,8 +208,8 @@ Want me to try fixing these? Here's what I can do:
 Execute auto-fixable items in order:
 
 1. **Missing packages:** Run `pip install -e dex-core` from the dex-core directory
-2. **Missing .mcp.json:** Copy from `.mcp.json.example`, substitute VAULT_PATH
-3. **Invalid .mcp.json:** Read it, validate JSON, identify the issue, offer to rewrite
+2. **Missing `.copilot/mcp-config.json`:** Copy from `.copilot/mcp-config.json`, substitute VAULT_PATH
+3. **Invalid `.copilot/mcp-config.json`:** Read it, validate JSON, identify the issue, offer to rewrite
 4. **Missing vault files:** Create with minimal valid content (e.g., empty Tasks.md with headers)
 5. **Corrupted JSON data files:** Read the file, identify the corruption, offer to reset or repair
 
@@ -229,7 +229,7 @@ For each issue, show the full technical context (this is the one time you show t
 Issue #1: WorkIQ — missing package
 
   Technical error: ModuleNotFoundError: No module named 'WorkIQ_server'
-  Server config: WorkIQ (ask_work_iq) in .mcp.json
+  Server config: WorkIQ (ask_work_iq) in .copilot/mcp-config.json
   Last working: 2 days ago
 
   Fix: pip install -e dex-core
@@ -288,7 +288,7 @@ Want me to run a fresh pre-flight check to verify everything?
 Fall back to manual checks:
 
 ```python
-# For each server in .mcp.json, try importing the module
+# For each server in .copilot/mcp-config.json, try importing the module
 python3 -c "import core.mcp.work_server" 2>&1
 python3 -c "import core.mcp.calendar_server" 2>&1
 # etc.

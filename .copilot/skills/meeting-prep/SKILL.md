@@ -24,7 +24,7 @@ Before executing this command, read `System/user-profile.yaml` → `communicatio
 - **Balanced:** Standard prep format
 - **Comprehensive:** Full context, relationship dynamics, strategic considerations
 
-See COPILOT.md → "Communication Adaptation" for full guidelines.
+See the Dex agent file (.github/agents/dex.agent.md) → "Communication Adaptation" for full guidelines.
 
 ---
 
